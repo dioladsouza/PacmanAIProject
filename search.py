@@ -90,12 +90,48 @@ def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    state = problem.getStartState()
+    stack = util.Stack()
+    stack.push(state)
+    backtracking_map = {state: []}
+    visited = set()
+
+    while not stack.isEmpty():
+        node = stack.pop()
+        if problem.isGoalState(node):
+            return backtracking_map[node]
+        
+        if node not in visited:
+            visited.add(node)
+            for i in problem.getSuccessors(node):
+                if i[0] not in visited:
+                    stack.push(i[0])
+                    backtracking_map[i[0]] = backtracking_map[node] + [i[1]]
+    return []
+
+    # util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    state = problem.getStartState()
+    queue = util.Queue()
+    queue.push(state)
+    backtracking_map = {state: []}
+    visited = set([state])
+
+    while queue:
+        node = queue.pop()
+        if problem.isGoalState(node):
+            return backtracking_map[node]
+        
+        for i in problem.getSuccessors(node):
+            if i[0] not in visited:
+                queue.push(i[0])
+                visited.add(i[0])
+                backtracking_map[i[0]] = backtracking_map[node] + [i[1]]
+    return []
+    # util.raiseNotDefined()
 
 def iterativeDeepeningSearch(problem):
     """
